@@ -11,6 +11,7 @@ $(document).ready(function(){
     $('#divide').on('click', appendDivision);
     $('#clear').on('click', clearAll);
     $('#equals').on('click', doTheMath);
+    $('#decimal').on('click', appendDecimal);
     $('#num1').on('click', appendOne);
     $('#num2').on('click', appendTwo);
     $('#num3').on('click', appendThree);
@@ -22,6 +23,11 @@ $(document).ready(function(){
     $('#num9').on('click', appendNine);
     $('#num0').on('click', appendZero);
 });
+
+function appendDecimal() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + '.');
+}
 
 function appendOne() {
     event.preventDefault();
@@ -125,6 +131,7 @@ function showResultInTextBox(operationData) {
 }
 
 function clearAll() {
-    $('#post-calculator').find('input[type=number]').val('');
+    event.preventDefault();
+    $('#post-calculator').find('input[type=text]').val('');
     $('#result').empty();
 }

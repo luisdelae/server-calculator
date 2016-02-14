@@ -1,3 +1,17 @@
-#result {
-    margin: 10px;
+#operation {
+    height: 40px;
+    width: 185px;
+    font-size: 30px;
+    text-align: right;
+}
+
+.row button {
+    height: 40px;
+    width: 40px;
+    margin: 2px;
+}
+
+#equals {
+    height: 40px;
+    width: 80px;
 }
