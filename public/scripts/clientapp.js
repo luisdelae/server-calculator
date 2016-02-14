@@ -1,129 +1,127 @@
 /**
- * Created by Luis on 2/13/16.
+ * Created by Luis on 2/14/16.
  */
 
-var firstValue;
-var secondValue;
-var operatorType;
+var valuesArray = [];
 
 $(document).ready(function(){
-    $('#add').on('click', addValues);
-    $('#subtract').on('click', subtractValues);
-    $('#multiply').on('click', multiplyValues);
-    $('#divide').on('click', divideValues);
+    $('#add').on('click', appendAddition);
+    $('#subtract').on('click', appendSubtraction);
+    $('#multiply').on('click', appendMultiplication);
+    $('#divide').on('click', appendDivision);
     $('#clear').on('click', clearAll);
+    $('#equals').on('click', doTheMath);
+    $('#num1').on('click', appendOne);
+    $('#num2').on('click', appendTwo);
+    $('#num3').on('click', appendThree);
+    $('#num4').on('click', appendFour);
+    $('#num5').on('click', appendFive);
+    $('#num6').on('click', appendSix);
+    $('#num7').on('click', appendSeven);
+    $('#num8').on('click', appendEight);
+    $('#num9').on('click', appendNine);
+    $('#num0').on('click', appendZero);
 });
 
-function addValues() {
+function appendOne() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 1);
+}
+function appendTwo() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 2);
+}
+function appendThree() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 3);
+}
+function appendFour() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 4);
+}
+function appendFive() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 5);
+}
+function appendSix() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 6);
+}
+function appendSeven() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 7);
+}
+function appendEight() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 8);
+}
+function appendNine() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 9);
+}
+function appendZero() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + 0);
+}
+function appendAddition() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + " + ");
+}
+function appendSubtraction() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + " - ");
+}function appendMultiplication() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + " x ");
+}function appendDivision() {
+    event.preventDefault();
+    $('#operation').val($('#operation').val() + " / ");
+}
+
+function doTheMath() {
     event.preventDefault();
 
     var values = {};
     $.each($('#post-calculator').serializeArray(), function(i, field) {
-        values[field.name] = parseFloat(field.value);
+        values[field.name] = (field.value);
+        valuesArray = values[field.name].split(" ");
+        values.firstValue = valuesArray[0];
+        values.operationType = valuesArray[1];
+        values.secondValue = valuesArray[2];
     });
 
-    values.type = 'add';
-
-    $('#post-calculator').find('input[type=number]').val('');
     console.log(values);
 
     $.ajax({
         type: 'POST',
-        url: '/add',
+        url: chooseURL(values.operationType),
         data: values,
         beforeSend: function () {
             //console.log('before sending to server');
         },
         success: function (data) {
             console.log('From Server: ', data);
-            appendToDom(data);
+            showResultInTextBox(data);
         }
     })
 }
 
-function subtractValues() {
-    event.preventDefault();
-
-    var values = {};
-    $.each($('#post-calculator').serializeArray(), function(i, field) {
-        values[field.name] = parseFloat(field.value);
-    });
-
-    values.type = 'subtract';
-
-    $('#post-calculator').find('input[type=number]').val('');
-    console.log(values);
-
-    $.ajax({
-        type: 'POST',
-        url: '/subtract',
-        data: values,
-        beforeSend: function () {
-            //console.log('before sending to server');
-        },
-        success: function (data) {
-            console.log('From Server: ', data);
-            appendToDom(data);
-        }
-    })
+function chooseURL(operType) {
+    var operTypeURL;
+    if (operType == "+") {
+        operTypeURL = '/add';
+    } else if (operType == "-") {
+        operTypeURL = '/subtract';
+    } else if (operType == "x") {
+        operTypeURL = '/multiply';
+    } else if (operType == "/") {
+        operTypeURL = '/divide';
+    }
+    return operTypeURL;
 }
 
-function multiplyValues() {
-    event.preventDefault();
-
-    var values = {};
-    $.each($('#post-calculator').serializeArray(), function(i, field) {
-        values[field.name] = parseFloat(field.value);
-    });
-
-    values.type = 'multiply';
-
-    $('#post-calculator').find('input[type=number]').val('');
-    console.log(values);
-
-    $.ajax({
-        type: 'POST',
-        url: '/multiply',
-        data: values,
-        beforeSend: function () {
-            //console.log('before sending to server');
-        },
-        success: function (data) {
-            console.log('From Server: ', data);
-            appendToDom(data);
-        }
-    })
-}
-
-function divideValues() {
-    event.preventDefault();
-
-    var values = {};
-    $.each($('#post-calculator').serializeArray(), function(i, field) {
-        values[field.name] = parseFloat(field.value);
-    });
-
-    values.type = 'divide';
-
-    $('#post-calculator').find('input[type=number]').val('');
-    console.log(values);
-
-    $.ajax({
-        type: 'POST',
-        url: '/divide',
-        data: values,
-        beforeSend: function () {
-            //console.log('before sending to server');
-        },
-        success: function (data) {
-            console.log('From Server: ', data);
-            appendToDom(data);
-        }
-    })
-}
-
-function appendToDom(operationData) {
-    $('#result').text('Result: ' + operationData);
+function showResultInTextBox(operationData) {
+    $('#operation').val(operationData);
 }
 
 function clearAll() {
