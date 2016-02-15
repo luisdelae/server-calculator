@@ -2,8 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var path = require('path');
-var add = require('./routes/add');
-var subtract = require('./routes/subtract');
+var add = require('./routes/Add');
+var subtract = require('./routes/Subtract');
 var multiply = require('./routes/multiply');
 var divide = require('./routes/divide');
 
