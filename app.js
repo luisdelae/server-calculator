@@ -7,7 +7,7 @@ var subtract = require('./routes/subtract');
 var multiply = require('./routes/multiply');
 var divide = require('./routes/divide');
 
-app.use(bodyParser.urlencoded({expanded: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('port', process.env.PORT || 5000);
 
